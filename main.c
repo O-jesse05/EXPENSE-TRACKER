@@ -62,3 +62,34 @@ void deleteExpense(char *name) {
         printf("Expense not found.\n");
     }
 }
+
+switch (choice) {
+    case 1:
+        printf("Enter expense name: ");
+        fgets(expense.name, sizeof(expense.name), stdin);
+        expense.name[strcspn(expense.name, "\n")] = 0;
+
+        printf("Enter expense amount: ");
+        scanf("%lf", &expense.amount);
+        getchar();
+
+        printf("Enter expense date (YYYY-MM-DD): ");
+        fgets(expense.date, sizeof(expense.date), stdin);
+        expense.date[strcspn(expense.date, "\n")] = 0;
+
+        addExpense(expense);
+        break;
+
+    case 2:
+        viewExpenses();
+        break;
+
+    case 3:
+        printf("Exiting...\n");
+        return 0;
+
+    default:
+        printf("Invalid choice. Please try again.\n");
+   }
+  }
+}
