@@ -150,3 +150,17 @@ void editExpense(char *oldName, Expense newExpense) {
     }
     fclose(file);
 }
+
+int main() {
+    int choice;
+    Expense expense;
+
+    printf("Welcome to the Expense Tracker\n");
+    printf("1. Add Expense\n");
+    printf("2. View Expenses\n");
+    printf("3. Exit\n");
+
+    while (1) {
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+        getchar(); // Consume newline
