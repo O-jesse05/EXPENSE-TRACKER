@@ -35,3 +35,30 @@ void viewExpenses() {
     }
     fclose(file);
 }
+// Function to delete an expense
+void deleteExpense(char *name) {
+    FILE *file = fopen(FILE_NAME, "r");
+    FILE *tempFile = fopen("temp.csv", "w");
+    if (file == NULL || tempFile == NULL) {
+        printf("Error opening file.\n");
+        return;
+    }
+    char line[256];
+    int found = 0;
+    while (fgets(line, sizeof(line), file)) {
+        if (strstr(line, name)) {
+            found = 1; // Skip this expense
+            continue;
+        }
+        fputs(line, tempFile);
+    }
+    fclose(file);
+    fclose(tempFile);
+    if (found) {
+        remove(FILE_NAME);       
+        rename("temp.csv", FILE_NAME); 
+        printf("Expense deleted.\n");
+    } else {
+        printf("Expense not found.\n");
+    }
+}
