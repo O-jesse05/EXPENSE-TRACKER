@@ -71,6 +71,38 @@ void deleteExpense(char *name) {
         printf("Expense not found.\n");
     }
 }
+// Report of current week
+void showWeeklyReport() {
+    time_t now = time(NULL);
+    struct tm *tm_now = localtime(&now);
+    time_t startOfWeek = now - (tm_now->tm_wday * 86400);
+
+    FILE *file = fopen(FILE_NAME, "r");
+    if (!file) {
+        printf("Could not open file for weekly report.\n");
+        return;
+    }
+
+    char name[100], date[20];
+    double amount, total = 0.0;
+    struct tm entry = {0};
+
+    printf("\nWeekly Report:\n");
+    printf("%-25s %-10s %-15s\n", "Expense Name", "Amount", "Date");
+    printf("-----------------------------------------------------------\n");
+
+    while (fscanf(file, "%99[^,],%lf,%19[^\n]\n", name, &amount, date) == 3) {
+        strptime(date, "%Y-%m-%d", &entry);
+        time_t entryTime = mktime(&entry);
+        if (difftime(entryTime, startOfWeek) >= 0) {
+            printf("%-25s %-10.2f %-15s\n", name, amount, date);
+            total += amount;
+        }
+    }
+
+    printf("\nTotal for This Week: %.2f\n", total);
+    fclose(file);
+}
 
 
 int main() {
@@ -83,7 +115,8 @@ int main() {
     printf("2. View Expenses\n");
     printf("3. Edit Expense\n");
     printf("4. Delete Expense\n");
-    printf("5. Exit\n");
+    printf("5. Show weekly Report")
+    printf("6. Exit\n");
 
     while (1) {
         printf("\nEnter your choice: ");
@@ -122,6 +155,9 @@ int main() {
                 deleteExpense(oldName);
                 break;
             case 5:
+                showWeeklyReport();
+                break;    
+            case 6:
                 printf("Exiting...\n");
                 return 0;
             default:
