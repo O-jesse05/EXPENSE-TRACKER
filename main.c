@@ -21,3 +21,17 @@ void addExpense(Expense expense) {
     fclose(file);
     printf("Expense added successfully.\n");
 }
+
+// Function to view all expenses
+void viewExpenses() {
+    FILE *file = fopen(FILE_NAME, "r");
+    if (file == NULL) {
+        printf("Could not open file for reading.\n");
+        return;
+    }
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+}
