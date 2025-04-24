@@ -158,3 +158,48 @@ void editExpense(char *oldName, Expense newExpense) {
     }
     fclose(file);
 }
+
+int main() {
+    int choice;
+    Expense expense;
+
+    printf("Welcome to the Expense Tracker\n");
+    printf("1. Add Expense\n");
+    printf("2. View Expenses\n");
+    printf("3. Exit\n");
+
+    while (1) {
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+        getchar(); // Consume newline
+
+        switch (choice) {
+            case 1:
+                printf("Enter expense name: ");
+                fgets(expense.name, sizeof(expense.name), stdin);
+                expense.name[strcspn(expense.name, "\n")] = 0;
+
+                printf("Enter expense amount: ");
+                scanf("%lf", &expense.amount);
+                getchar();
+
+                printf("Enter expense date (YYYY-MM-DD): ");
+                fgets(expense.date, sizeof(expense.date), stdin);
+                expense.date[strcspn(expense.date, "\n")] = 0;
+
+                addExpense(expense);
+                break;
+
+            case 2:
+                viewExpenses();
+                break;
+
+            case 3:
+                printf("Exiting...\n");
+                return 0;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+}
