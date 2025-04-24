@@ -22,18 +22,26 @@ void addExpense(Expense expense) {
     fclose(file);
     printf("Expense added successfully.\n");
 }
-
-// Function to view all expenses
+// Views all expenses and displays total
 void viewExpenses() {
     FILE *file = fopen(FILE_NAME, "r");
-    if (file == NULL) {
-        printf("Could not open file for reading.\n");
+    if (!file) {
+        printf("Could not open file to view expenses.\n");
         return;
     }
-    char line[256];
-    while (fgets(line, sizeof(line), file)) {
-        printf("%s", line);
+
+    char name[100], date[20];
+    double amount, total = 0.0;
+
+    printf("\n%-25s %-10s %-15s\n", "Expense Name", "Amount", "Date");
+    printf("-----------------------------------------------------------\n");
+
+    while (fscanf(file, "%99[^,],%lf,%19[^\n]\n", name, &amount, date) == 3) {
+        printf("%-25s %-10.2f %-15s\n", name, amount, date);
+        total += amount;
     }
+
+    printf("\nTotal Expenses: %.2f\n", total);
     fclose(file);
 }
 // Function to delete an expense
