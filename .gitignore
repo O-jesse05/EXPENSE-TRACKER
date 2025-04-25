@@ -1,3 +1,5 @@
 *.exe
 build/
 temp*
+ .vscode/tasks.json
+
